@@ -1,4 +1,4 @@
-package henrotaym.env.utils.api;
+/*package henrotaym.env.utils.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -53,3 +53,4 @@ public class JsonRequest {
     return this.request;
   }
 }
+*/

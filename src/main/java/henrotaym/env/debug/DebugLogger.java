@@ -1,4 +1,4 @@
-package henrotaym.env.debug;
+/*package henrotaym.env.debug;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,4 +31,4 @@ public class DebugLogger {
   private void logPretty(Consumer<String> callback, Object... dumpables) {
     callback.accept(this.pretty(dumpables));
   }
-}
+}*/

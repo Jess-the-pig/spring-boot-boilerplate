@@ -1,4 +1,4 @@
-package henrotaym.env.exceptions;
+/*package henrotaym.env.exceptions;
 
 import henrotaym.env.http.resources.exceptions.ApiExceptionResource;
 import henrotaym.env.mappers.ApiExceptionMapper;
@@ -30,4 +30,4 @@ public class GlobalExceptionHandler {
 
     return this.apiExceptionMapper.responseEntity(apiException);
   }
-}
+}*/

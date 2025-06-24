@@ -1,4 +1,4 @@
-package henrotaym.env.exceptions;
+/*package henrotaym.env.exceptions;
 
 import henrotaym.env.enums.exceptions.ExceptionType;
 import java.time.LocalDateTime;
@@ -17,3 +17,4 @@ public class ApiException {
   private final HashMap<String, ?> data;
   private final StackTraceElement[] stackTrace;
 }
+*/

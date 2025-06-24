@@ -1,4 +1,4 @@
-package henrotaym.env.utils.api;
+/*package henrotaym.env.utils.api;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -26,4 +26,4 @@ public class JsonClient {
 
     return response;
   }
-}
+}*/

@@ -1,4 +1,4 @@
-package henrotaym.env.mappers;
+/*package henrotaym.env.mappers;
 
 import henrotaym.env.enums.exceptions.ExceptionType;
 import henrotaym.env.exceptions.ApiException;
@@ -62,4 +62,4 @@ public class ApiExceptionMapper {
         .type(ExceptionType.MODEL_NOT_FOUND)
         .stackTrace(exception.getStackTrace());
   }
-}
+}*/

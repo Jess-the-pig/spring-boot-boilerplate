@@ -1,4 +1,4 @@
-package henrotaym.env.queues.emitters;
+/*package henrotaym.env.queues.emitters;
 
 import henrotaym.env.queues.events.Event;
 import lombok.RequiredArgsConstructor;
@@ -13,4 +13,4 @@ public class Emitter {
   public <T extends Event> void send(T event) {
     this.kafkaTemplate.send(event.eventName(), event);
   }
-}
+}*/
