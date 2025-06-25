@@ -1,7 +1,7 @@
 package henrotaym.env;
 
-import henrotaym.env.entities.Driver;
-import henrotaym.env.services.DriverService;
+import henrotaym.env.entities.Character;
+import henrotaym.env.services.CharacterService;
 import henrotaym.env.services.JsonPlaceholderService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -33,11 +33,11 @@ public class EnvApplication {
 
     @Bean
     CommandLineRunner commandLineRunner(
-            JsonPlaceholderService placeHolderService, DriverService driverService) {
+            JsonPlaceholderService placeHolderService, CharacterService characterService) {
         return args -> {
-            List<Driver> drivers = placeHolderService.getDrivers();
-            driverService.saveAll(drivers);
-            log.info("Saved {} todos in the database", drivers.size());
+            List<Character> characters = placeHolderService.getCharacters();
+            characterService.saveAll(characters);
+            log.info("Saved {} characters in the database", characters.size());
         };
     }
 }
