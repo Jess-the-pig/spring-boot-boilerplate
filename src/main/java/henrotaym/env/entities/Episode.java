@@ -1,7 +1,5 @@
 package henrotaym.env.entities;
 
-import java.math.BigInteger;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,10 +11,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import java.math.BigInteger;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Table(name = "characters")
-public class Character {
+public class Episode {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +24,7 @@ public class Character {
     private BigInteger id;
 
     @JsonProperty("id")
-    private Long apiCharacterId;
+    private Long apiEpisodeId;
 
     private String name;
 

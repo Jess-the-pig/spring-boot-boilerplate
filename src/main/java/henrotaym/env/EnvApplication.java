@@ -36,8 +36,8 @@ public class EnvApplication {
             JsonPlaceholderService placeHolderService, CharacterService characterService) {
         return args -> {
             List<Character> characters = placeHolderService.getCharacters();
-            characterService.saveAll(characters);
-            log.info("Saved {} characters in the database", characters.size());
+            characterService.refreshAllFromApi(characters);
+            log.info("Refreshed {} characters in the database", characters.size());
         };
     }
 }

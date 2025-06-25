@@ -10,6 +10,7 @@
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="true"/>
             </column>
+            <column name="api_character_id" type="LONG"/>
             <column name="name" type="VARCHAR(255)"/>
             <column name="status" type="VARCHAR(255)"/>
             <column name="image" type="VARCHAR(255)"/>
