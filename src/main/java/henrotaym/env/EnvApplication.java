@@ -1,7 +1,9 @@
 package henrotaym.env;
 
 import henrotaym.env.entities.Character;
+import henrotaym.env.entities.Episode;
 import henrotaym.env.services.CharacterService;
+import henrotaym.env.services.EpisodeService;
 import henrotaym.env.services.JsonPlaceholderService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -33,11 +35,16 @@ public class EnvApplication {
 
     @Bean
     CommandLineRunner commandLineRunner(
-            JsonPlaceholderService placeHolderService, CharacterService characterService) {
+            JsonPlaceholderService placeHolderService,
+            CharacterService characterService,
+            EpisodeService episodeService) {
         return args -> {
             List<Character> characters = placeHolderService.getCharacters();
+            List<Episode> episodes = placeHolderService.getEpisodes();
             characterService.refreshAllFromApi(characters);
             log.info("Refreshed {} characters in the database", characters.size());
+            episodeService.refreshAllFromApi(episodes);
+            log.info("Refreshed {} episodes in the database", episodes.size());
         };
     }
 }

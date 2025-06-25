@@ -15,7 +15,7 @@ import java.math.BigInteger;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
-@Table(name = "characters")
+@Table(name = "episodes")
 public class Episode {
 
     @Id
@@ -28,9 +28,8 @@ public class Episode {
 
     private String name;
 
-    private String status;
-
-    private String image;
+    @JsonProperty("episode")
+    private String episodeCode;
 
     public BigInteger getId() {
         return id;
@@ -40,12 +39,12 @@ public class Episode {
         this.id = id;
     }
 
-    public Long getapiCharacterID() {
-        return apiCharacterId;
+    public Long getApiEpisodeId() {
+        return apiEpisodeId;
     }
 
-    public void setApiCharacterId(Long apiCharacterId) {
-        this.apiCharacterId = apiCharacterId;
+    public void setApiEpisodeId(Long apiEpisodeId) {
+        this.apiEpisodeId = apiEpisodeId;
     }
 
     @Nullable
@@ -58,20 +57,11 @@ public class Episode {
     }
 
     @Nullable
-    public String getStatus() {
-        return status;
+    public String getEpisodeCode() {
+        return episodeCode;
     }
 
-    public void setStatus(@Nullable String status) {
-        this.status = status;
-    }
-
-    @Nullable
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(@Nullable String image) {
-        this.image = image;
+    public void setEpisodeCode(@Nullable String episodeCode) {
+        this.episodeCode = episodeCode;
     }
 }
