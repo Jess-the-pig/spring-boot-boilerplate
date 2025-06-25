@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import henrotaym.env.entities.Driver;
 import henrotaym.env.repositories.DriverRepository;
 
+@Service
 public class DriverService {
     private static final Logger LOG = LoggerFactory.getLogger(DriverService.class);
     private final DriverRepository driverRepository;
@@ -20,10 +22,10 @@ public class DriverService {
     }
 
     public List<Driver> findAll() {
-        return driverRepository.findAllDrivers();
+        return driverRepository.findAll();
     }
 
     public void saveAll(List<Driver> drivers) {
-        driverRepository.saveAllDrivers(drivers);
+        driverRepository.saveAll(drivers);
     }
 }
