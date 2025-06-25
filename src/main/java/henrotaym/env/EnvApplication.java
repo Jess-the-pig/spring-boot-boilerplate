@@ -1,13 +1,5 @@
 package henrotaym.env;
 
-import henrotaym.env.entities.Character;
-import henrotaym.env.entities.Episode;
-import henrotaym.env.services.CharacterService;
-import henrotaym.env.services.EpisodeService;
-import henrotaym.env.services.JsonPlaceholderService;
-
-import lombok.extern.slf4j.Slf4j;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -16,7 +8,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
+import henrotaym.env.queues.emitters.SyncCharacterEmitter;
+import henrotaym.env.queues.events.SyncCharacterEvent;
+import lombok.extern.slf4j.Slf4j;
 
 @SpringBootApplication
 @Slf4j
@@ -34,6 +28,17 @@ public class EnvApplication {
     }
 
     @Bean
+    CommandLineRunner startSyncEmitter(SyncCharacterEmitter syncCharacterEmitter) {
+        return args -> {
+            // Par exemple, on démarre la synchro pour la page 1
+            SyncCharacterEvent event = new SyncCharacterEvent(1);
+            syncCharacterEmitter.sendSyncCharactersEvent(event);
+            // Tu peux aussi boucler sur plusieurs pages si tu veux
+        };
+    }
+
+    /* Test de base de recherche d'API RickEtMorty
+    @Bean
     CommandLineRunner commandLineRunner(
             JsonPlaceholderService placeHolderService,
             CharacterService characterService,
@@ -47,4 +52,5 @@ public class EnvApplication {
             log.info("Refreshed {} episodes in the database", episodes.size());
         };
     }
+        */
 }

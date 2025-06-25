@@ -29,10 +29,11 @@ public class JsonPlaceholderService {
         this.restTemplate = restTemplate;
     }
 
-    public List<Character> getCharacters() {
+    public List<Character> getCharacters(Integer page) {
         String url = RICK_API_URL;
         ResponseEntity<String> response =
-                restTemplate.exchange(url + "/character", HttpMethod.GET, null, String.class);
+                restTemplate.exchange(
+                        url + "/character?page=" + page, HttpMethod.GET, null, String.class);
         String body = response.getBody();
         log.info("Réponse brute reçue : {}", body);
 
