@@ -1,13 +1,12 @@
 package henrotaym.env.queues.events;
 
-import henrotaym.env.enums.EventName;
-
 public class SyncCharacterEvent implements Event {
 
-    public static final String EVENT_NAME = EventName.SYNC_CHARACTER;
+    public String EVENT_NAME;
     private String page;
 
-    public SyncCharacterEvent(String page) {
+    public SyncCharacterEvent(String EVENT_NAME, String page) {
+        this.EVENT_NAME = EVENT_NAME;
         this.page = page;
     }
 

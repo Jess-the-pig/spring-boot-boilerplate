@@ -1,3 +1,4 @@
+import henrotaym.env.enums.EventName;
 import henrotaym.env.queues.SyncCharacterEmitter;
 import henrotaym.env.queues.events.SyncCharacterEvent;
 
@@ -19,6 +20,7 @@ public class SyncCharacterEmitterRunner
     private static final Logger log = LoggerFactory.getLogger(SyncCharacterEmitterRunner.class);
     private final SyncCharacterEmitter syncCharacterEmitter;
     private ScheduledExecutorService scheduler;
+    private String eventName = EventName.SYNC_CHARACTER;
 
     public SyncCharacterEmitterRunner(SyncCharacterEmitter syncCharacterEmitter) {
         this.syncCharacterEmitter = syncCharacterEmitter;
@@ -29,9 +31,18 @@ public class SyncCharacterEmitterRunner
         scheduler = Executors.newSingleThreadScheduledExecutor();
         scheduler.scheduleAtFixedRate(
                 () -> {
-                    SyncCharacterEvent event = new SyncCharacterEvent("1");
-                    log.info("Envoi périodique de l'événement : {}", event);
-                    syncCharacterEmitter.sendSyncCharactersEvent(event);
+                    try {
+                        SyncCharacterEvent event = new SyncCharacterEvent(eventName, "1");
+                        log.info("Envoi périodique de l'événement : {}", event);
+                        if (syncCharacterEmitter != null) {
+                            syncCharacterEmitter.sendSyncCharactersEvent(event);
+                        } else {
+                            log.error("syncCharacterEmitter est null !");
+                        }
+                    } catch (Exception e) {
+                        log.error("Erreur lors de l’envoi de l’événement : {}", e.getMessage(), e);
+                        // NE PAS lancer RuntimeException("Compile Error") ici
+                    }
                 },
                 0, // délai initial (0 = immédiat)
                 10, // délai entre chaque exécution

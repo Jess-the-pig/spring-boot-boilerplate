@@ -1,5 +1,7 @@
 package henrotaym.env;
 
+import henrotaym.env.queues.events.SyncCharacterEvent;
+
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
@@ -24,16 +26,25 @@ public class KafkaConsumerConfig {
     @Bean
     public Map<String, Object> consumerConfigs() {
         Map<String, Object> props = new HashMap<>(kafkaProperties.buildConsumerProperties());
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka:9092");
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, "tpd-loggers");
-        // Si tu veux désérialiser des objets personnalisés, ajoute le package à trust
+        props.put(
+                ConsumerConfig.GROUP_ID_CONFIG,
+                "mon-groupe"); // Utilise le même groupId que dans le listener
+        // Ajoute le package à trust
         props.put(JsonDeserializer.TRUSTED_PACKAGES, "henrotaym.env.queues.events");
+        props.put(
+                ConsumerConfig.INTERCEPTOR_CLASSES_CONFIG,
+                "henrotaym.env.interceptors.LoggingConsumerInterceptor");
         return props;
     }
 
     @Bean
-    public ConsumerFactory<String, Object> consumerFactory() {
-        return new DefaultKafkaConsumerFactory<>(consumerConfigs());
+    public ConsumerFactory<String, SyncCharacterEvent> consumerFactory() {
+        return new DefaultKafkaConsumerFactory<>(
+                consumerConfigs(),
+                new StringDeserializer(),
+                new JsonDeserializer<>(SyncCharacterEvent.class));
     }
 }
