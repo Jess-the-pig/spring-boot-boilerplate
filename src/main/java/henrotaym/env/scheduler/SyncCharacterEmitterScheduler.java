@@ -18,9 +18,9 @@ public class SyncCharacterEmitterScheduler {
         this.syncCharacterEmitter = syncCharacterEmitter;
     }
 
-    @Scheduled(fixedRate = 10000) // toutes les 10 secondes
+    @Scheduled(fixedRate = 100000) // toutes les 10 secondes
     public void sendSyncEvent() {
-        SyncCharacterEvent event = new SyncCharacterEvent("sync-character", "1");
+        SyncCharacterEvent event = new SyncCharacterEvent("sync-character", 1);
         log.info("Envoi périodique de l'événement : {}", event);
         syncCharacterEmitter.sendSyncCharactersEvent(event);
     }

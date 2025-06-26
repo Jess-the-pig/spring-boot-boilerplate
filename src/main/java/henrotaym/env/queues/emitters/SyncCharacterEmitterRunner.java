@@ -32,7 +32,7 @@ public class SyncCharacterEmitterRunner
         scheduler.scheduleAtFixedRate(
                 () -> {
                     try {
-                        SyncCharacterEvent event = new SyncCharacterEvent(eventName, "1");
+                        SyncCharacterEvent event = new SyncCharacterEvent(eventName, 1);
                         log.info("Envoi périodique de l'événement : {}", event);
                         if (syncCharacterEmitter != null) {
                             syncCharacterEmitter.sendSyncCharactersEvent(event);
@@ -45,7 +45,7 @@ public class SyncCharacterEmitterRunner
                     }
                 },
                 0, // délai initial (0 = immédiat)
-                10, // délai entre chaque exécution
+                100, // délai entre chaque exécution
                 TimeUnit.SECONDS);
     }
 

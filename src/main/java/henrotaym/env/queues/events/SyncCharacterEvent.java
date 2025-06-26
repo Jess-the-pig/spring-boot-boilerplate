@@ -3,9 +3,9 @@ package henrotaym.env.queues.events;
 public class SyncCharacterEvent implements Event {
 
     public String EVENT_NAME;
-    private String page;
+    private int page;
 
-    public SyncCharacterEvent(String EVENT_NAME, String page) {
+    public SyncCharacterEvent(String EVENT_NAME, int page) {
         this.EVENT_NAME = EVENT_NAME;
         this.page = page;
     }
@@ -19,11 +19,11 @@ public class SyncCharacterEvent implements Event {
         return EVENT_NAME;
     }
 
-    public String getPage() {
+    public int getPage() {
         return page;
     }
 
-    public void setPage(String page) {
+    public void setPage(int page) {
         this.page = page;
     }
 }

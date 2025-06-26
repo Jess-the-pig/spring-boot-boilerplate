@@ -84,7 +84,7 @@ public class CharacterService {
     }
 
     @Transactional
-    public void syncCharactersFromApiPage(String page) {
+    public void syncCharactersFromApiPage(int page) {
         List<Character> characters = jsonPlaceholderService.getCharacters(page);
         updateOrCreateAllFromApi(characters);
     }
