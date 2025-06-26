@@ -1,12 +1,10 @@
 package henrotaym.env.queues.emitters;
 
+import henrotaym.env.queues.events.Event;
+
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
-import henrotaym.env.queues.events.Event;
-import lombok.RequiredArgsConstructor;
-
-@RequiredArgsConstructor
 @Component
 public class Emitter {
     private final KafkaTemplate<String, Object> kafkaTemplate;

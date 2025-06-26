@@ -29,7 +29,7 @@ public class JsonPlaceholderService {
         this.restTemplate = restTemplate;
     }
 
-    public List<Character> getCharacters(Integer page) {
+    public List<Character> getCharacters(String page) {
         String url = RICK_API_URL;
         ResponseEntity<String> response =
                 restTemplate.exchange(

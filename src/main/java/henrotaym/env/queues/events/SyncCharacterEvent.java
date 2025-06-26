@@ -5,20 +5,26 @@ import henrotaym.env.enums.EventName;
 public class SyncCharacterEvent implements Event {
 
     public static final String EVENT_NAME = EventName.SYNC_CHARACTER;
-    private Integer page;
+    private String page;
 
-    public SyncCharacterEvent(Integer page) {
+    public SyncCharacterEvent(String page) {
         this.page = page;
     }
 
-    public SyncCharacterEvent() {}
+    public SyncCharacterEvent() {
+        // Constructeur par défaut pour la désérialisation JSON
+    }
 
     @Override
     public String eventName() {
         return EVENT_NAME;
     }
 
-    public Integer getPage() {
+    public String getPage() {
         return page;
+    }
+
+    public void setPage(String page) {
+        this.page = page;
     }
 }

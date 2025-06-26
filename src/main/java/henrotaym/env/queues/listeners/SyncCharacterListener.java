@@ -1,25 +1,31 @@
 package henrotaym.env.queues.listeners;
 
+import henrotaym.env.enums.ProfileName;
+import henrotaym.env.queues.events.SyncCharacterEvent;
+import henrotaym.env.services.CharacterService;
+
+import lombok.extern.slf4j.Slf4j;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
-
-import henrotaym.env.annotations.KafkaRetryableListener;
-import henrotaym.env.enums.ProfileName;
-import henrotaym.env.queues.events.SyncCharacterEvent;
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
 @Profile(ProfileName.QUEUE)
-public class SyncCharacterListener implements Listener<SyncCharacterEvent> {
+public class SyncCharacterListener {
 
-    private static final Logger log = LoggerFactory.getLogger(SyncCharacterEvent.class);
+    private final CharacterService characterService;
+    private static final Logger log = LoggerFactory.getLogger(SyncCharacterListener.class);
 
-    @Override
-    @KafkaRetryableListener(SyncCharacterEvent.EVENT_NAME)
-    public void listen(SyncCharacterEvent syncCharacterEvent) {
-        log.info("Synchronisation character recu du topic {}: {}", syncCharacterEvent.eventName());
+    public SyncCharacterListener(CharacterService characterService) {
+        this.characterService = characterService;
+    }
+
+    @KafkaListener(topics = "sync-character")
+    public void listen(SyncCharacterEvent event) {
+        characterService.syncCharactersFromApiPage(event.getPage());
     }
 }

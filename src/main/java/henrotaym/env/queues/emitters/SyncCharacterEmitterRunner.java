@@ -1,0 +1,55 @@
+import henrotaym.env.queues.SyncCharacterEmitter;
+import henrotaym.env.queues.events.SyncCharacterEvent;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextClosedEvent;
+import org.springframework.stereotype.Component;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
+@Component
+public class SyncCharacterEmitterRunner
+        implements CommandLineRunner, ApplicationListener<ContextClosedEvent> {
+
+    private static final Logger log = LoggerFactory.getLogger(SyncCharacterEmitterRunner.class);
+    private final SyncCharacterEmitter syncCharacterEmitter;
+    private ScheduledExecutorService scheduler;
+
+    public SyncCharacterEmitterRunner(SyncCharacterEmitter syncCharacterEmitter) {
+        this.syncCharacterEmitter = syncCharacterEmitter;
+    }
+
+    @Override
+    public void run(String... args) {
+        scheduler = Executors.newSingleThreadScheduledExecutor();
+        scheduler.scheduleAtFixedRate(
+                () -> {
+                    SyncCharacterEvent event = new SyncCharacterEvent("1");
+                    log.info("Envoi périodique de l'événement : {}", event);
+                    syncCharacterEmitter.sendSyncCharactersEvent(event);
+                },
+                0, // délai initial (0 = immédiat)
+                10, // délai entre chaque exécution
+                TimeUnit.SECONDS);
+    }
+
+    @Override
+    public void onApplicationEvent(ContextClosedEvent event) {
+        if (scheduler != null) {
+            scheduler.shutdown();
+            try {
+                if (!scheduler.awaitTermination(5, TimeUnit.SECONDS)) {
+                    scheduler.shutdownNow();
+                }
+            } catch (InterruptedException e) {
+                scheduler.shutdownNow();
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
+}
