@@ -3,6 +3,10 @@ package henrotaym.env.services;
 import henrotaym.env.entities.Episode;
 import henrotaym.env.repositories.EpisodeRepository;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 
 import lombok.extern.slf4j.Slf4j;
@@ -22,10 +26,18 @@ public class EpisodeService {
 
     private final EpisodeRepository episodeRepository;
     private final RestTemplate restTemplate;
+    private final EntityManager entityManager;
+    private final JsonPlaceholderService jsonPlaceholderService;
 
-    public EpisodeService(EpisodeRepository episodeRepository, RestTemplate restTemplate) {
+    public EpisodeService(
+            EpisodeRepository episodeRepository,
+            RestTemplate restTemplate,
+            EntityManager entityManager,
+            JsonPlaceholderService jsonPlaceholderService) {
         this.episodeRepository = episodeRepository;
         this.restTemplate = restTemplate;
+        this.entityManager = entityManager;
+        this.jsonPlaceholderService = jsonPlaceholderService;
     }
 
     public List<Episode> findAll() {
@@ -48,9 +60,18 @@ public class EpisodeService {
 
     public void updateOrCreateAllFromApi(List<Episode> episodesFromApi) {
         for (Episode episode : episodesFromApi) {
-            Optional<Episode> existing = episodeRepository.findById(episode.getId());
-            if (existing.isPresent()) {
-                Episode toUpdate = existing.get();
+            Long apiEpisodeId = episode.getApiEpisodeId();
+
+            CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+            CriteriaQuery<Episode> cq = cb.createQuery(Episode.class);
+            Root<Episode> root = cq.from(Episode.class);
+            cq.where(cb.equal(root.get("apiEpisodeId"), apiEpisodeId));
+
+            Optional<Episode> existingOpt =
+                    entityManager.createQuery(cq).getResultStream().findFirst();
+
+            if (existingOpt.isPresent()) {
+                Episode toUpdate = existingOpt.get();
                 // Copie les champs nécessaires
                 toUpdate.setName(episode.getName());
                 toUpdate.setApiEpisodeId(episode.getApiEpisodeId());
@@ -60,5 +81,11 @@ public class EpisodeService {
                 episodeRepository.save(episode);
             }
         }
+    }
+
+    @Transactional
+    public void syncEpisodesFromApiPage(int page) {
+        List<Episode> episodes = jsonPlaceholderService.getEpisodes();
+        updateOrCreateAllFromApi(episodes);
     }
 }

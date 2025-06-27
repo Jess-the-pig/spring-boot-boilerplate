@@ -1,6 +1,8 @@
-import henrotaym.env.enums.EventName;
-import henrotaym.env.queues.SyncCharacterEmitter;
-import henrotaym.env.queues.events.SyncCharacterEvent;
+package henrotaym.env.queues.emitters.runners;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,21 +11,21 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import henrotaym.env.enums.EventName;
+import henrotaym.env.queues.emitters.SyncEpisodeEmitter;
+import henrotaym.env.queues.events.SyncEpisodeEvent;
 
 @Component
-public class SyncCharacterEmitterRunner
+public class SyncEpisodeEmitterRunner
         implements CommandLineRunner, ApplicationListener<ContextClosedEvent> {
 
-    private static final Logger log = LoggerFactory.getLogger(SyncCharacterEmitterRunner.class);
-    private final SyncCharacterEmitter syncCharacterEmitter;
+    private static final Logger log = LoggerFactory.getLogger(SyncEpisodeEmitterRunner.class);
+    private final SyncEpisodeEmitter syncEpisodeEmitter;
     private ScheduledExecutorService scheduler;
-    private String eventName = EventName.SYNC_CHARACTER;
+    private String eventName = EventName.SYNC_EPISODE;
 
-    public SyncCharacterEmitterRunner(SyncCharacterEmitter syncCharacterEmitter) {
-        this.syncCharacterEmitter = syncCharacterEmitter;
+    public SyncEpisodeEmitterRunner(SyncEpisodeEmitter syncEpisodeEmitter) {
+        this.syncEpisodeEmitter = syncEpisodeEmitter;
     }
 
     @Override
@@ -32,20 +34,19 @@ public class SyncCharacterEmitterRunner
         scheduler.scheduleAtFixedRate(
                 () -> {
                     try {
-                        SyncCharacterEvent event = new SyncCharacterEvent(eventName, 1);
-                        log.info("Envoi périodique de l'événement : {}", event);
-                        if (syncCharacterEmitter != null) {
-                            syncCharacterEmitter.sendSyncCharactersEvent(event);
+                        SyncEpisodeEvent event = new SyncEpisodeEvent(eventName, 1);
+                        log.info("Envoi périodique de l'événement episode : {}", event);
+                        if (syncEpisodeEmitter != null) {
+                            syncEpisodeEmitter.sendSyncEpisodesEvent(event);
                         } else {
-                            log.error("syncCharacterEmitter est null !");
+                            log.error("syncEpisodeEmitter est null !");
                         }
                     } catch (Exception e) {
                         log.error("Erreur lors de l’envoi de l’événement : {}", e.getMessage(), e);
-                        // NE PAS lancer RuntimeException("Compile Error") ici
                     }
                 },
-                0, // délai initial (0 = immédiat)
-                100, // délai entre chaque exécution
+                0,
+                150,
                 TimeUnit.SECONDS);
     }
 
