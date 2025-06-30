@@ -60,7 +60,7 @@ public class CharacterService {
     public void updateOrCreateAllFromApi(List<Character> charactersFromApi) {
         for (Character apiChar : charactersFromApi) {
             // On suppose que l'entité Character a un champ "apiCharacterId"
-            Long apiCharacterId = apiChar.getapiCharacterID();
+            Long apiCharacterId = apiChar.getApiCharacterId();
 
             CriteriaBuilder cb = entityManager.getCriteriaBuilder();
             CriteriaQuery<Character> cq = cb.createQuery(Character.class);
