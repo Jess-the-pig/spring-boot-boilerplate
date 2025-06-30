@@ -48,10 +48,11 @@ public class JsonPlaceholderService {
         }
     }
 
-    public List<Episode> getEpisodes() {
+    public List<Episode> getEpisodes(int page) {
         String url = RICK_API_URL;
         ResponseEntity<String> response =
-                restTemplate.exchange(url + "/episode", HttpMethod.GET, null, String.class);
+                restTemplate.exchange(
+                        url + "/episode?page=" + page, HttpMethod.GET, null, String.class);
         String body = response.getBody();
         log.info("Réponse brute reçue : {}", body);
 

@@ -10,8 +10,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 import java.math.BigInteger;
+import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
@@ -30,6 +32,18 @@ public class Episode {
 
     @JsonProperty("episode")
     private String episodeCode;
+
+    @Transient
+    @JsonProperty("characters")
+    private List<String> characterUrls;
+
+    public List<String> getCharacterUrls() {
+        return characterUrls;
+    }
+
+    public void setCharacterUrls(List<String> characterUrls) {
+        this.characterUrls = characterUrls;
+    }
 
     public BigInteger getId() {
         return id;
